@@ -17,8 +17,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.usuec.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://My-OnlineShop:OnlineShop10@cluster0.usuec.mongodb.net/OnlineShop?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     console.log('connection err',err);
