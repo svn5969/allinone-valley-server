@@ -24,6 +24,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log('connection err',err);
   const productsCollection = client.db("OnlineShop").collection("products");
+  const ordersCollection = client.db("OnlineShop").collection("orders");
+
 
 app.get('/products',(req,res)=>{
     productsCollection.find()
@@ -43,6 +45,8 @@ app.get('/checkout/:_id',(req, res)=>{
 })
 
 
+
+
   app.post('/addProduct',(req,res)=>{
     const newProduct = req.body;
     console.log('adding new product',newProduct);
@@ -52,7 +56,25 @@ app.get('/checkout/:_id',(req, res)=>{
         console.log('inserted count',result.insertedCount);
         res.send(result.insertedCount>0)
     })
-})   
+})  
+
+app.post('/addOrder',(req,res)=>{
+  const newOrder = req.body;
+  console.log('adding new product',newOrder);
+
+  ordersCollection.insertOne(newOrder)
+  .then(result=>{
+      console.log('inserted count',result.insertedCount);
+      res.send(result.insertedCount>0)
+  })
+})  
+
+
+app.get("/orders", (req, res) => {
+  ordersCollection.find().toArray((err, items) => {
+      res.send(items);
+  });     
+});
 
 
  // client.close();
